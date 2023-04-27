@@ -1,0 +1,971 @@
+******************* ALERT ***********************************
+
+
+import android.os.Bundle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage("Do you want to exit ?");
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+}
+***************
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Press The Back Button of Your Phone."
+       />
+</RelativeLayout>
+***************************************** CALCULATOR ***********************************
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import android.view.View;
+import android.widget.EditText;
+public class MainActivity extends AppCompatActivity {
+    boolean isNewOp=true;
+    EditText ed1;
+    String op="+";
+    String oldNumber="";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ed1=findViewById(R.id.editText);
+    }
+    public void numberEvent(View view) {
+        if(isNewOp)
+
+            ed1.setText("");
+
+            isNewOp=false;
+
+
+        String number =ed1.getText().toString();
+
+        switch(view.getId()){
+            case R.id.bu0:number +="0";
+                break;
+            case R.id.bu1:number +="1";
+                break;
+            case R.id.bu2:number +="2";
+                break;
+            case R.id.bu3:number +="3";
+                break;
+            case R.id.bu4:number +="4";
+                break;
+            case R.id.bu5:number +="5";
+                break;
+            case R.id.bu6:number +="6";
+                break;
+            case R.id.bu7:number +="7";
+                break;
+            case R.id.bu8:number +="8";
+                break;
+            case R.id.bu9:number +="9";
+                break;
+            case R.id.buDot:number +=".";
+                break;
+            case R.id.buPlusMinus:number ="-"+number;
+                break;
+        }
+        ed1.setText(number);
+    }
+    public void operatorEvent(View view) {
+
+        isNewOp =true;
+        oldNumber=ed1.getText().toString();
+        switch (view.getId())
+        {
+            case R.id.buDivide:op="/";
+                break;
+            case R.id.buMultiply:op="*";
+                break;
+            case R.id.buPlus:op="+";
+                break;
+            case R.id.buMinus:op="-";
+                break;
+        }
+    }
+    public void equalEvent(View view) {
+        String newNumber =ed1.getText().toString();
+        double result =0.0;
+        switch (op)
+        {
+            case "+":result=Double.parseDouble(oldNumber) + Double.parseDouble(newNumber);
+                break;
+            case "-":result=Double.parseDouble(oldNumber) - Double.parseDouble(newNumber);
+                break;
+            case "/":result=Double.parseDouble(oldNumber) / Double.parseDouble(newNumber);
+                break;
+            case "*":result=Double.parseDouble(oldNumber) * Double.parseDouble(newNumber);
+                break;
+        }
+        ed1.setText(result+"");
+    }
+    public void acEvent(View view) {
+        ed1.setText("0");
+        isNewOp =true ;
+    }
+    public void percentEvent(View view) {
+        Double no =Double.parseDouble(ed1.getText().toString())/100;
+        ed1.setText(no+"");
+        isNewOp =true;
+    }
+}
+
+************************
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_weight="1"
+        android:background="@color/cardview_dark_background"
+        android:inputType="textPersonName"
+        android:gravity="right|center"
+        android:textSize="40pt"
+        android:textColor="@color/white"
+        android:text="0"
+        />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0pt">
+
+            <Button
+                android:id="@+id/buAC"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:onClick="acEvent"
+                android:text="AC"
+                android:textColor="@color/purple_200"
+                android:textSize="10pt">
+            </Button>
+
+            <Button
+                android:id="@+id/buPlusMinus"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:textColor="@color/purple_200"
+                android:text="+/-">
+            </Button>
+
+            <Button
+                android:id="@+id/buDivide"
+                android:textSize="10pt"
+                android:onClick="operatorEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:textColor="@color/purple_200"
+                android:text="/">
+            </Button>
+
+            <Button
+                android:id="@+id/buMultiply"
+                android:textSize="10pt"
+                android:onClick="operatorEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:textColor="@color/purple_200"
+                android:text="*">
+
+            </Button>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0pt">
+
+            <Button
+                android:id="@+id/bu7"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:text="7">
+            </Button>
+
+            <Button
+                android:id="@+id/bu8"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:text="8">
+            </Button>
+
+            <Button
+                android:id="@+id/bu9"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:text="9">
+            </Button>
+
+            <Button
+                android:id="@+id/buPercent"
+                android:textSize="10pt"
+                android:onClick="percentEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:textColor="@color/purple_200"
+                android:text="%">
+            </Button>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0pt">
+
+            <Button
+                android:id="@+id/bu4"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:text="4">
+            </Button>
+
+            <Button
+                android:id="@+id/bu5"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:text="5">
+            </Button>
+
+            <Button
+                android:id="@+id/bu6"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:text="6">
+            </Button>
+
+            <Button
+                android:id="@+id/buPlus"
+                android:textSize="10pt"
+                android:onClick="operatorEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:textColor="@color/purple_200"
+                android:text="+">
+            </Button>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0pt">
+
+            <Button
+                android:id="@+id/bu1"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:text="1">
+            </Button>
+
+            <Button
+                android:id="@+id/bu2"
+                android:onClick="numberEvent"
+                android:textSize="10pt"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:text="2">
+            </Button>
+
+            <Button
+                android:id="@+id/bu3"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:text="3">
+            </Button>
+
+            <Button
+                android:id="@+id/buMinus"
+                android:textSize="10pt"
+                android:onClick="operatorEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:textColor="@color/purple_200"
+                android:text="-">
+            </Button>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0pt">
+            <Button
+                android:id="@+id/bu0"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="2"
+                android:text="0">
+            </Button>
+            <Button
+                android:id="@+id/buDot"
+                android:textSize="10pt"
+                android:onClick="numberEvent"
+                android:layout_width="30pt"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="2"
+                android:text=".">
+            </Button>
+            <Button
+                android:id="@+id/buEqual"
+                android:textSize="10pt"
+                android:layout_width="45pt"
+                android:onClick="equalEvent"
+                android:layout_height="30pt"
+                android:layout_margin="1pt"
+                android:layout_weight="1"
+                android:textColor="@color/purple_200"
+                android:text="=">
+            </Button>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
+******************************************** COLOR FONT ******************************
+import android.app.*;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.graphics.Color;
+public class MainActivity extends Activity
+{
+    int ch=1;
+    float font=30;
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        final TextView t= (TextView) findViewById(R.id.textView);
+        Button b1= (Button) findViewById(R.id.button1);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                t.setTextSize(font);
+                font = font + 5;
+                if (font == 50)
+                    font = 30;
+            }
+        });
+        Button b2= (Button) findViewById(R.id.button2);
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (ch) {
+                    case 1:
+                        t.setTextColor(Color.RED);
+                        break;
+                    case 2:
+                        t.setTextColor(Color.GREEN);
+                        break;
+                    case 3:
+                        t.setTextColor(Color.BLUE);
+                        break;
+                    case 4:
+                        t.setTextColor(Color.CYAN);
+                        break;
+                    case 5:
+                        t.setTextColor(Color.YELLOW);
+                        break;
+                    case 6:
+                        t.setTextColor(Color.MAGENTA);
+                        break;
+                }
+                ch++;
+                if (ch == 7)
+                    ch = 1;
+            }
+        });
+}
+}
+********************
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:gravity="center"
+        android:text="WELCOME IN ANDROID PROGRAMMING!"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="Change font size"
+        android:textSize="25sp" />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="Change color"
+        android:textSize="25sp"/>
+</LinearLayout>
+************************************************ LIFE CYCAL **************************************
+
+
+package com.example.lifecycle;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+public class MainActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Log.d("lifecycle","onCreate invoked");
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("lifecycle","onStart invoked");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("lifecycle","onResume invoked");
+    }
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+        Log.d("lifecycle","onPause invoked");
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("lifecycle","onStop invoked");
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("lifecycle","onRestart invoked");
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("lifecycle","onDestroy invoked");
+    }
+}
+****************************
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+************************************************ login *********************************
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9C27B0"
+    android:orientation="vertical"
+    android:textAlignment="center"
+    tools:ignore="ExtraText">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="50dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Email"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="5dp"
+        android:ems="10"
+        android:hint="Enter Email"
+        android:inputType="textEmailAddress"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Password"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:ems="10"
+        android:hint="Enter Password"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/loginbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:text="Login" />
+</LinearLayout>
+
+******************
+
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class MainActivity extends AppCompatActivity
+{   EditText email,password;
+    Button loginbtn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        email=(EditText)findViewById(R.id.email);
+        password=(EditText)findViewById(R.id.password);
+        loginbtn=(Button)findViewById(R.id.loginbtn);
+        loginbtn.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                if(!isValidEmail(email.getText().toString())) {
+                    email.setError("Invalid Email");
+                }
+
+                if (!isValidPassword(password.getText().toString())) {
+                    password.setError("Password Atlest 6 Digits");
+                }
+                else
+                {
+                    if((email.getText().toString().equals("ashutoshpuri2000@gmail.com")&&(password.getText().toString().equals("123456789"))))
+                    {
+                        Toast.makeText(getApplicationContext(),"Login Success", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Invalid User Details,Register First", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+    }
+    private boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    private boolean isValidPassword(String pass) {
+        if (pass != null && pass.length() >= 6) {
+            return true;
+        }
+        return false;
+    }
+}
+
+************************************************** PALINDROME *************************************
+
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText string;
+    TextView result;
+    Button button;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        string = findViewById(R.id.string);
+        result = findViewById(R.id.textView);
+        button = findViewById(R.id.button);
+
+        button.setOnClickListener(view -> {
+            String stringValue = string.getText().toString();
+            checkPalindrome(stringValue);
+        });
+    }
+
+
+    private void checkPalindrome(String stringValue) {
+        String reversed = new StringBuilder(stringValue).reverse().toString();
+        if(stringValue.equals(reversed))
+        {
+            result.setText("Palindrome");
+        }
+        else
+        {
+            result.setText("Not Palindrome");
+        }
+    }
+}
+*****************
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/string"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the String"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Check Palindrome" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+***************************** SMS  ****************************************
+
+package com.example.sms;
+import android.app.*;
+
+import android.os.Bundle;
+
+import android.telephony.SmsManager;
+
+import android.view.View;
+
+import android.widget.Button;
+
+import android.widget.EditText;
+
+import android.widget.Toast;
+public class MainActivity extends Activity
+{
+
+    EditText phonenumber,message;
+
+    Button send;
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        send=findViewById(R.id.button);
+
+        phonenumber=findViewById(R.id.editText);
+
+        message=findViewById(R.id.editText2);
+
+        send.setOnClickListener(new View.OnClickListener() {
+
+
+
+            public void onClick(View view) {
+
+                String number=phonenumber.getText().toString();
+
+                String msg=message.getText().toString();
+
+                try {
+
+                    SmsManager smsManager=SmsManager.getDefault();
+
+                    smsManager.sendTextMessage(number,null,msg,null,null);
+
+                    Toast.makeText(getApplicationContext(),"Message Sent",Toast.LENGTH_LONG).show();
+
+                }catch (Exception e)
+
+                {
+
+                    Toast.makeText(getApplicationContext(),"Some fiedls is Empty",Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+
+        });}
+}
+************************
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+
+    android:orientation="vertical"
+
+    android:layout_marginTop="140dp"
+
+    android:layout_height="match_parent"
+
+    tools:context=".MainActivity">
+
+
+
+
+
+    <EditText
+
+        android:id="@+id/editText"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:ems="10"
+
+        android:hint="Enter number"
+
+        android:inputType="textPersonName" />
+
+
+
+    <EditText
+
+        android:id="@+id/editText2"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:ems="10"
+
+        android:hint="Enter message"
+
+        android:inputType="textPersonName" />
+
+
+
+    <Button
+
+        android:id="@+id/button"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+
+        android:layout_marginLeft="60dp"
+
+        android:layout_marginRight="60dp"
+
+        android:text="SEND" />
+
+</LinearLayout>
+
+
+*******************
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SMS"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.SMS.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
